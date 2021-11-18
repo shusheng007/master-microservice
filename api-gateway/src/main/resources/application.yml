@@ -1,0 +1,19 @@
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: route_buy
+          uri: 127.0.0.1:8081/api/buy
+          predicates:
+            - Path=/buy/**
+            - name: VipCustomer
+              args:
+                isEnable: true
+          filter:
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

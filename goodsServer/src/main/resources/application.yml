@@ -8,6 +8,9 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8849
+    loadbalancer:
+      enabled: true
+#      configurations: zone-preference
   data:
     mongodb:
       uri: mongodb://root:ss007@127.0.0.1:27017/

@@ -1,6 +1,8 @@
-package top.shusheng007.goodsserver.functionality.goodsdetail.config;
+package top.shusheng007.goodsserver.functionality.goodsdetail.config.lb;
 
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClient;
+import org.springframework.cloud.loadbalancer.core.RandomLoadBalancer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -14,6 +16,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 
 @Configuration
+@LoadBalancerClient(value = "order-service",configuration = CustomLoadBalancerConfiguration.class)
 public class LoadBalanceConfiguration {
 
     @LoadBalanced

@@ -5,13 +5,13 @@
     <parent>
         <groupId>top.shusheng007</groupId>
         <artifactId>master-microservice</artifactId>
-        <version>1.0</version>
+        <version>1.0.0</version>
     </parent>
 
     <groupId>top.shusheng007</groupId>
     <artifactId>api-gateway</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>api-gateway</name>
+    <version>1.0.0</version>
+    <name>apiGateway</name>
     <description>api-gateway</description>
 
 
@@ -26,11 +26,7 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+
     </dependencies>
 
 

@@ -1,0 +1,67 @@
+version: "3.0"
+services:
+  ms_nacos:
+    image: nacos/nacos-server:v2.1.0
+    container_name: ms_nacos
+    ports:
+      - 8849:8848
+    environment:
+      - MODE=standalone
+      - JVM_XMS=512m #-Xms 初始堆
+      - JVM_XMX=512m #-Xmx 最大堆
+      - JVM_XMN=256m #-Xmn 新生代大小
+      - JVM_MS=64m #-XX:MetaspaceSize 元空间
+      - JVM_MMS=64m #-XX:MaxMetaspaceSize 最大元空间
+    networks:
+      ms_network:
+        ipv4_address: 172.171.1.10
+  ms_mariadb:
+    image: mariadb:10.6.5
+    container_name: ms_mariadb
+    ports:
+      - 3306:3306
+    volumes:
+      - ~/software/database/ms_mariadb/config:/etc/mysql/conf.d
+      - ~/software/database/ms_mariadb/data:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      ms_network:
+        ipv4_address: 172.171.1.11
+  ms_zipkin:
+    image: openzipkin/zipkin
+    container_name: ms_zipkin
+    ports:
+      - 9411:9411
+    environment:
+      - STORAGE_TYPE=mysql
+      # Point the zipkin at the storage backend
+      - MYSQL_DB=zipkin
+      - MYSQL_USER=root
+      - MYSQL_PASS=root
+      - MYSQL_HOST=ms_mariadb
+      - MYSQL_TCP_PORT=3306
+    networks:
+      ms_network:
+        ipv4_address: 172.171.1.12
+    depends_on:
+      - ms_mariadb
+  ms_redis:
+    image: redis:6.2.7
+    container_name: ms_redis
+    ports:
+      - 6379:6379
+    volumes: # 数据卷，目录挂载
+      - ~/software/redis/ms_redis/conf/redis.conf:/etc/redis/redis.conf
+      - ~/software/redis/ms_redis/data:/data
+    command: redis-server /etc/redis/redis.conf # 容器启动后默认执行的命令
+    networks:
+      ms_network:
+        ipv4_address: 172.171.1.13
+
+networks:
+  ms_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.171.1.0/24

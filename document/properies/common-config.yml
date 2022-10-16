@@ -1,0 +1,11 @@
+logging:
+  level:
+    org.springframework.web: INFO
+
+spring:
+  zipkin:
+    enabled: true
+    baseUrl: http://localhost:9411
+  sleuth:
+    sampler:
+      rate: 100

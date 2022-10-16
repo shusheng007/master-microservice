@@ -1,0 +1,32 @@
+server:
+  port: 9000
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8849
+    gateway:
+      routes:
+        - id: route_buildin
+          uri: http://shusheng007.top
+          predicates:
+            - Header=token,ss007
+          filter:
+            - PrefixPath=/2022/10/14/redis
+        - id: route_buy
+          uri: http://127.0.0.1:8081/api/buy
+          predicates:
+            - Path=/buy/**
+            - name: VipCustomer
+              args:
+                : true
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

@@ -1,51 +1,73 @@
 package top.shusheng007.apigateway.predicates;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.handler.predicate.AbstractRoutePredicateFactory;
-import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 /**
- * Created by Ben.Wang
- * <p>
- * Author      Ben.Wang
- * Date        2021/10/25 17:30
- * Description
+ * Created by shusheng007
+ *
+ * @author benwang
+ * @date 2022/10/16 16:39
+ * @description:
  */
+
+@Slf4j
 public class VipCustomerRoutePredicateFactory extends AbstractRoutePredicateFactory<VipCustomerRoutePredicateFactory.Config> {
+    public static final String VIP_KEY = "vipKey";
+    public static final String VIP_VALUE = "vipValue";
+
+    public VipCustomerRoutePredicateFactory() {
+        super(Config.class);
+    }
 
 
-    public VipCustomerRoutePredicateFactory(Class<Config> configClass) {
-        super(configClass);
+    //实现了这个在application.yml中配置的时候可以使用简写
+    @Override
+    public List<String> shortcutFieldOrder() {
+        return Arrays.asList(VIP_KEY,VIP_VALUE);
     }
 
     @Override
     public Predicate<ServerWebExchange> apply(Config config) {
         return serverWebExchange -> {
-            if (!config.isEnable) {
+            String value = serverWebExchange.getRequest().getHeaders().getFirst(config.getVipKey());
+            if (!StringUtils.hasText(value) || !value.equals(config.getVipValue())) {
+                log.info("屌丝用户");
                 return false;
             }
-            String token = serverWebExchange.getRequest().getHeaders().getFirst("token");
-            return isVip(token);
+            log.info("Vip用户");
+            return true;
         };
     }
 
-    //此处模拟调用其他服务判断此用户是否是vip
-    private boolean isVip(String token) {
-        return token != null && token.contains("vip");
-    }
-
     public static class Config {
-        private boolean isEnable;
+        private String vipKey;
+        private String vipValue;
 
-        public boolean isEnable() {
-            return isEnable;
+        public String getVipKey() {
+            return vipKey;
         }
 
-        public void setEnable(boolean enable) {
-            isEnable = enable;
+        public Config setVipKey(String vipKey) {
+            this.vipKey = vipKey;
+            return this;
+        }
+
+        public String getVipValue() {
+            return vipValue;
+        }
+
+        public Config setVipValue(String vipValue) {
+            this.vipValue = vipValue;
+            return this;
         }
     }
 }

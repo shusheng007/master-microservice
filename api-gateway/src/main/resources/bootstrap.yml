@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    nacos:
+      discovery:
+        #读取下面配置的值
+        server-addr: ${spring.cloud.nacos.server.address}
+        namespace: ${spring.cloud.nacos.server.namespace}
+      config:
+        server-addr: ${spring.cloud.nacos.server.address}
+        namespace: ${spring.cloud.nacos.server.namespace}
+        file-extension: ${spring.cloud.nacos.server.file-extension}
+        extension-configs[0]:
+          data-id: base-config.yaml
+          group: ${spring.config.activate.on-profile}
+          refresh: true
+        extension-configs[1]:
+          data-id: ${spring.application.name}.yaml
+          group: ${spring.config.activate.on-profile}
+          refresh: true
+
+---
+### 指定环境
+spring:
+  config:
+    activate:
+      on-profile: dev
+  cloud:
+    nacos:
+      server:
+        address: 127.0.0.1:8849
+        namespace: ns-dev
+        file-extension: yaml
+

@@ -1,5 +1,6 @@
 package top.shusheng007.ordersevice.api;
 
+import entity.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,5 +17,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface LogisticsFeign {
 
     @GetMapping("/logistics/delivery")
-    public Boolean delivery(@RequestParam("orderId") String orderId);
+    public BaseResponse<String> delivery(@RequestParam("orderId") String orderId);
 }

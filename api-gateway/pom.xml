@@ -26,7 +26,23 @@
             <artifactId>spring-cloud-starter-gateway</artifactId>
         </dependency>
 
+        <!--        由于sc gateway 基于webflux，所以需要reactive版本-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+        </dependency>
 
+<!--        由于sc gateway 基于webflux，所以需要reactive版本-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis-reactive</artifactId>
+        </dependency>
+
+<!--        使用redis连接池-->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
     </dependencies>
 
 

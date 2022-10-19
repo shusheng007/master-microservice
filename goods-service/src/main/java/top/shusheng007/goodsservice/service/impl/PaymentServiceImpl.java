@@ -27,7 +27,8 @@ public class PaymentServiceImpl implements PaymentService {
     public String payment(String orderId) {
         OrderDetail result = orderServiceFeign.payment(PaymentReq.builder()
                 .orderId(orderId)
-                .build());
+                .build())
+                .getData();
         return String.format("你已经成功购买:%s",result.getGoodsName());
     }
 }

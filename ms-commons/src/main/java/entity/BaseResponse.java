@@ -13,6 +13,9 @@ public class BaseResponse<T> {
     private String errorMessage;
     private T data;
 
+    public BaseResponse() {
+    }
+
     public BaseResponse(int code, String errorMessage, T data) {
         this.code = code;
         this.errorMessage = errorMessage;

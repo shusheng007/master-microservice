@@ -4,25 +4,74 @@ server:
 spring:
   application:
     name: api-gateway
+  redis:
+    #redis数据库，其有16个数据库
+    database: 0
+    #redis服务器地址
+    host: localhost
+    #redis服务器端口号
+    port: 6379
+    #连接池配置
+    lettuce:
+      pool:
+        enabled: true
+        max-active: 8
+        max-wait: 10s
   cloud:
-    nacos:
-      discovery:
-        server-addr: 127.0.0.1:8849
     gateway:
       routes:
         - id: route_buildin
           uri: http://shusheng007.top
           predicates:
             - Header=token,ss007
-          filter:
+          filters:
             - PrefixPath=/2022/10/14/redis
-        - id: route_buy
-          uri: http://127.0.0.1:8081/api/buy
+        - id: route_vip_service
+          uri: https://baidu.com
           predicates:
-            - Path=/buy/**
-            - name: VipCustomer
+            - Path=/goods-service/**
+            - VipCustomer=vipKey,i-am-vip
+          filters:
+            - name: AdHandler
               args:
-                : true
+                vipKey: i-am-vip
+        #商品服务
+        - id: route_goods_service
+          uri: lb://goods-service
+          predicates:
+            - Path=/goods-service/**
+          filters:
+            #限流
+            - name: RequestRateLimiter #gateway内置的一个filter
+              args:
+                # 令牌桶每秒填充速率
+                redis-rate-limiter.replenishRate: 1
+                # 令牌桶的上容量
+                redis-rate-limiter.burstCapacity: 3
+                # 使用SpEL表达式从Spring容器中获取KeyResolver Bean,用来确定使用什么维度限流，例如使用请求IP限流
+                # 这个是我们在自己的Config文件中定义的bean
+                key-resolver: "#{@pathKeyResolver}"
+            #断路器
+            - name: CircuitBreaker #SpringCloudCircuitBreakerFilterFactory 重写了name，改为CircuitBreaker
+              args:
+                name: myCircuitBreaker #断路器的名称，自己随便叫
+            - StripPrefix=1
+            - name: PrefixPath
+              args:
+                prefix: /goods
+
+        #物流服务
+        - id: route_logistics_service
+          uri: lb://logistics-service
+          predicates:
+            - Path=/logistics-service/**
+          filters:
+            - StripPrefix=1
+            - PrefixPath=/logistics
+
+
+
+
 
 
 management:

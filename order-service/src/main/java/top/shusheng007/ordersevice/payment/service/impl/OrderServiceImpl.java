@@ -26,8 +26,13 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDetail paymentOrder(String orderId) {
-        logisticsFeign.delivery(orderId);
-        return new OrderDetail(orderId,"书",50*10*10);
+        String delivery = logisticsFeign.delivery(orderId).getData();
+        return OrderDetail.builder()
+                .orderId(orderId)
+                .goodsName("设计模式")
+                .price(50)
+                .deliveryState(delivery)
+                .build();
     }
 
     @Override
@@ -39,7 +44,7 @@ public class OrderServiceImpl implements OrderService {
             log.error(e.getLocalizedMessage(),e);
         }
         return Arrays.asList(
-                new OrderDetail("A1","书",50*10*10),
-                new OrderDetail("A2","键盘",250*10*10));
+                new OrderDetail("A1","书",50*10*10,""),
+                new OrderDetail("A2","键盘",250*10*10,""));
     }
 }

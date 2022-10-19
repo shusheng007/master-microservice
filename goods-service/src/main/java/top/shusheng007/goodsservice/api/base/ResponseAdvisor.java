@@ -11,14 +11,15 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 import utils.ResultUtil;
 
-@RestControllerAdvice
+//@RestControllerAdvice
 public class ResponseAdvisor implements ResponseBodyAdvice<Object> {
     @Override
     public boolean supports(MethodParameter methodParameter, Class<? extends HttpMessageConverter<?>> aClass) {
 //        if (methodParameter.getContainingClass() == UnusualController.class){
 //            return false;
 //        }
-        return true;
+//        return true;
+        return false;
     }
 
     @Override

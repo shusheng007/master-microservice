@@ -20,7 +20,7 @@ public class LogisticsServiceImpl implements LogisticsService{
         //模拟慢请求
         try {
             log.info("正在备货....");
-            Thread.sleep(8000);
+            Thread.sleep(3000);
         } catch (InterruptedException e) {
             log.error(e.getMessage(),e);
         }

@@ -1,5 +1,6 @@
 package top.shusheng007.goodsservice.api;
 
+import entity.BaseResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,7 +23,7 @@ import java.util.List;
 public interface OrderServiceFeign {
 
     @PostMapping(value = "/order/payment")
-    public OrderDetail payment(@RequestBody PaymentReq paymentReq);
+    public BaseResponse<OrderDetail> payment(@RequestBody PaymentReq paymentReq);
 
     @GetMapping(value = "/order/getOrders/{userId}")
     public List<OrderDetail> getOrdersByUserId(@PathVariable("userId") String userId);

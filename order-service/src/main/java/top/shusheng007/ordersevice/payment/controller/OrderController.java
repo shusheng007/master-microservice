@@ -1,10 +1,12 @@
 package top.shusheng007.ordersevice.payment.controller;
 
+import entity.BaseResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import top.shusheng007.ordersevice.payment.model.OrderDetail;
 import top.shusheng007.ordersevice.payment.model.api.PaymentReq;
 import top.shusheng007.ordersevice.payment.service.OrderService;
+import utils.ResultUtil;
 
 import java.util.List;
 
@@ -25,8 +27,8 @@ public class OrderController {
 
 
     @PostMapping(value = "/payment")
-    public OrderDetail payment(@RequestBody PaymentReq paymentReq){
-        return orderService.paymentOrder(paymentReq.getOrderId());
+    public BaseResponse<OrderDetail> payment(@RequestBody PaymentReq paymentReq){
+        return ResultUtil.ok(orderService.paymentOrder(paymentReq.getOrderId())) ;
     }
 
     @GetMapping(value = "/getOrders/{userId}")

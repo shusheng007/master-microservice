@@ -1,6 +1,7 @@
 package top.shusheng007.ordersevice.payment.model;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,11 +13,13 @@ import lombok.NoArgsConstructor;
  * Description
  */
 
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderDetail {
     private String orderId;
     private String goodsName;
-    private int price;
+    private Integer price;
+    private String deliveryState;
 }

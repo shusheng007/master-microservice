@@ -30,5 +30,5 @@ spring:
     nacos:
       server:
         address: 127.0.0.1:8849
-        namespace: ns-dev
+        namespace: ns_dev
         file-extension: yaml

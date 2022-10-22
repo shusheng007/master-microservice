@@ -38,7 +38,7 @@ public class MsCircuitBreakerConfig {
                         .recordExceptions(Throwable.class) // 所有异常都当作失败来处理
                         .build();
                 TimeLimiterConfig timeLimiterConfig = TimeLimiterConfig.custom()
-                        .timeoutDuration(Duration.ofMillis(200))//接口200毫秒没有响应就认为失败了
+                        .timeoutDuration(Duration.ofMillis(5000))//接口200毫秒没有响应就认为失败了
                         .build();
 
                 factory.configureDefault(id -> {

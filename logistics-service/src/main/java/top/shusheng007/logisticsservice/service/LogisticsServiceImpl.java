@@ -4,6 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Random;
+
 /**
  * Created by shusheng007
  *
@@ -18,11 +20,12 @@ public class LogisticsServiceImpl implements LogisticsService{
     @Override
     public String deliveryGoods(String orderId) {
         //模拟慢请求
-        try {
-            log.info("正在备货....");
-            Thread.sleep(3000);
-        } catch (InterruptedException e) {
-            log.error(e.getMessage(),e);
+        if(new Random().nextBoolean()){
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         return String.format("您的订单：[%s]已经发货，请注意查收",orderId);
     }

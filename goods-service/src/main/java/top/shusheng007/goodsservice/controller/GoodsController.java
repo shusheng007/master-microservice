@@ -29,7 +29,7 @@ public class GoodsController {
     }
 
     @GetMapping(value = "/testLimit")
-    public BaseResponse<String> makeOrder(){
+    public BaseResponse<String> testLimit(){
         return ResultUtil.ok("testLimit");
     }
 

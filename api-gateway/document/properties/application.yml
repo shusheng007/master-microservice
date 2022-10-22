@@ -2,8 +2,6 @@ server:
   port: 9000
 
 spring:
-  application:
-    name: api-gateway
   redis:
     #redis数据库，其有16个数据库
     database: 0
@@ -68,14 +66,3 @@ spring:
           filters:
             - StripPrefix=1
             - PrefixPath=/logistics
-
-
-
-
-
-
-management:
-  endpoints:
-    web:
-      exposure:
-        include: "*"

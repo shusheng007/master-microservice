@@ -37,8 +37,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         return String.format("你已经成功购买:%s",result.getGoodsName());
 
-
-
 //        return "ok";
     }
 }

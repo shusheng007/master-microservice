@@ -30,6 +30,12 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
+<!--        okhttp-->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-okhttp</artifactId>
+        </dependency>
+
     </dependencies>
 
 

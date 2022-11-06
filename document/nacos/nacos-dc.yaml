@@ -1,0 +1,30 @@
+version: "3.0"
+services:
+  # nacos 配置与服务注册中心
+  ms_nacos:
+    image: nacos/nacos-server:v2.1.0
+    container_name: ms_nacos
+    ports:
+      - 8849:8848
+    environment:
+      - MODE=standalone
+      - SPRING_DATASOURCE_PLATFORM=mysql
+      - MYSQL_DATABASE_NUM=1
+      - MYSQL_SERVICE_HOST=172.171.1.11
+      - MYSQL_SERVICE_PORT=3306
+      - MYSQL_SERVICE_DB_NAME=nacos_config
+      - MYSQL_SERVICE_DB_PARAM=characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false&serverTimezone=Asia/Shanghai
+      - MYSQL_SERVICE_USER=root
+      - MYSQL_SERVICE_PASSWORD=root
+      - JVM_XMS=512m #-Xms 初始堆
+      - JVM_XMX=512m #-Xmx 最大堆
+      - JVM_XMN=256m #-Xmn 新生代大小
+      - JVM_MS=64m #-XX:MetaspaceSize 元空间
+      - JVM_MMS=64m #-XX:MaxMetaspaceSize 最大元空间
+    networks:
+      document_ms_network:
+        ipv4_address: 172.171.1.10
+
+networks:
+  document_ms_network:
+    external: true

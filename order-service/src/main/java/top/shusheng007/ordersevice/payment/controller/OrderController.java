@@ -2,6 +2,7 @@ package top.shusheng007.ordersevice.payment.controller;
 
 import entity.BaseResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import top.shusheng007.ordersevice.payment.model.OrderDetail;
 import top.shusheng007.ordersevice.payment.model.api.PaymentReq;
@@ -18,6 +19,7 @@ import java.util.List;
  * Description
  */
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/order")
@@ -27,7 +29,9 @@ public class OrderController {
 
 
     @PostMapping(value = "/payment")
-    public BaseResponse<OrderDetail> payment(@RequestBody PaymentReq paymentReq){
+    public BaseResponse<OrderDetail> payment(@RequestBody PaymentReq paymentReq,
+                                             @RequestHeader(value = "token",required = false) String token){
+        log.info("token 为：{}",token);
         return ResultUtil.ok(orderService.paymentOrder(paymentReq.getOrderId())) ;
     }
 

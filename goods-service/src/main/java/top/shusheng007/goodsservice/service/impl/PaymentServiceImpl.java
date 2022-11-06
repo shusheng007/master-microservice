@@ -1,5 +1,6 @@
 package top.shusheng007.goodsservice.service.impl;
 
+import entity.BaseResponse;
 import io.micrometer.core.annotation.Timed;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +31,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Timed(value = "goods.payment",description = "商品服务的支付方法耗时")
     @Override
     public String payment(String orderId) {
-        OrderDetail result = orderServiceFeign.payment(PaymentReq.builder()
+        BaseResponse<OrderDetail> response = orderServiceFeign.payment(PaymentReq.builder()
                 .orderId(orderId)
-                .build())
-                .getData();
-
-        return String.format("你已经成功购买:%s",result.getGoodsName());
+                .build());
+        if(response.getCode()==0){
+            return String.format("你已经成功购买:%s",response.getData().getGoodsName());
+        }
+        return response.getErrorMessage();
 
 //        return "ok";
     }

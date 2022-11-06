@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.RequestParam;
  * @description:
  */
 
-@FeignClient(value = "logistics-service")
+@FeignClient(value = "logistics-service" ,url = "https://xxxxx")
 public interface LogisticsFeign {
 
     @GetMapping("/logistics/delivery")
     public BaseResponse<String> delivery(@RequestParam("orderId") String orderId);
+
+
 }

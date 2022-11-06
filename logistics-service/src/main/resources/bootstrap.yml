@@ -1,3 +1,6 @@
+server:
+  port: 7201
+
 spring:
   application:
     name: logistics-service

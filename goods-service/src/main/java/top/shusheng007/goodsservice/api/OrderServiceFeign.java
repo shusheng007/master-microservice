@@ -21,7 +21,7 @@ import java.util.List;
  * @description:
  */
 
-@FeignClient(value = "order-service",fallback = OrderServiceFeignFallback.class,configuration = {})
+@FeignClient(value = "order-service",fallback = OrderServiceFeignFallback.class)
 @LoadBalancerClient(value = "order-service",configuration = OpenFeignLoadBalancerConfig.class)
 public interface OrderServiceFeign {
 

@@ -7,8 +7,6 @@ feign:
         loggerLevel: full
         requestInterceptors:
           - top.shusheng007.goodsservice.api.FeignTokenInterceptor
-
-
   okhttp:
     enabled: true
   circuitbreaker:

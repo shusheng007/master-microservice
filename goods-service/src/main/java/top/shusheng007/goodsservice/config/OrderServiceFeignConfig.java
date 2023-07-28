@@ -1,10 +1,13 @@
 package top.shusheng007.goodsservice.config;
 
 import feign.Client;
+import feign.RequestInterceptor;
+import feign.codec.ErrorDecoder;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.OkHttpClient;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import top.shusheng007.goodsservice.api.feign.AuthRequestInterceptor;
+import top.shusheng007.goodsservice.api.feign.OrderFeignErrorDecoder;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -23,8 +26,7 @@ import java.security.cert.X509Certificate;
  * @description:
  */
 @Slf4j
-@Configuration
-public class OpenFeignOkHttpConfig {
+public class OrderServiceFeignConfig {
 
     @Bean
     public okhttp3.OkHttpClient okHttpClient(){
@@ -63,9 +65,23 @@ public class OpenFeignOkHttpConfig {
                 .build();
     }
 
-    //一旦提供了自定义OkHttpClient，自动装配就失效了，所以必须提供自定义Client
+    //Once a custom OkHttpClient is provided, autowiring becomes invalid, so a custom Client must be provided
     @Bean
     public Client feignClient() {
         return new feign.okhttp.OkHttpClient(okHttpClient());
     }
+
+    @Bean
+    public RequestInterceptor authRestInterceptor(){
+        return new AuthRequestInterceptor();
+    }
+
+
+    @Bean
+    public ErrorDecoder feignErrorDecoder(){
+        OrderFeignErrorDecoder orderFeignErrorDecoder = new OrderFeignErrorDecoder();
+        return orderFeignErrorDecoder;
+    }
+
+
 }

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import top.shusheng007.goodsservice.api.entity.OrderDetail;
 import top.shusheng007.goodsservice.api.entity.PaymentReq;
 import top.shusheng007.goodsservice.config.OpenFeignLoadBalancerConfig;
+import top.shusheng007.goodsservice.config.OrderServiceFeignConfig;
 
 import java.util.List;
 
@@ -21,8 +22,8 @@ import java.util.List;
  * @description:
  */
 
-@FeignClient(value = "order-service",fallback = OrderServiceFeignFallback.class)
-@LoadBalancerClient(value = "order-service",configuration = OpenFeignLoadBalancerConfig.class)
+@FeignClient(name = "order-service", fallback = OrderServiceFeignFallback.class, configuration = {OrderServiceFeignConfig.class})
+@LoadBalancerClient(value = "order-service", configuration = OpenFeignLoadBalancerConfig.class)
 public interface OrderServiceFeign {
 
     @PostMapping(value = "/order/payment")

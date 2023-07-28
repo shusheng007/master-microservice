@@ -1,9 +1,8 @@
-package top.shusheng007.goodsservice.api;
+package top.shusheng007.goodsservice.api.feign;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -18,8 +17,7 @@ import java.util.Optional;
  * @description:
  */
 @Slf4j
-//@Component
-public class FeignTokenInterceptor implements RequestInterceptor {
+public class AuthRequestInterceptor implements RequestInterceptor {
 
     private static final String TOKEN = "token";
 
